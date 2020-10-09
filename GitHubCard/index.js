@@ -6,16 +6,11 @@ import axios from "axios";
     https://api.github.com/users/<your name>
 */
 
-axios
-  .get("https://api.github.com/users/Greg-roberts511")
-  .then((res) => {
-    console.log(res.data);
-    //step 4 pass data into card maker
-    cards.appendChild(cardMaker(res.data));
-  })
-  .catch((err) => {
-    debugger;
-  });
+axios.get("https://api.github.com/users/Greg-roberts511").then((res) => {
+  console.log(res.data);
+  //step 4 pass data into card maker
+  cards.appendChild(cardMaker(res.data));
+});
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -108,21 +103,44 @@ function cardMaker(obj) {
   cardInfo.appendChild(bio);
 
   //populate elemnts
-  img.src = data.avatar_url;
-  name.textContent = data.name;
-  username.textContent = data.login;
-  location.textContent = `Location: ${data.location}`;
-  profile.textContent = `Profile: ${data.name}`;
-  profileUrl.textContent = `Link: ${data.html_url}`;
-  followers.textContent = `Followers: ${data.followers}`;
-  following.textContent = `Following: ${data.following}`;
-  bio.textContent = `Bio: ${data.bio}`;
+  img.src = obj.avatar_url;
+  name.textContent = obj.name;
+  username.textContent = obj.login;
+  location.textContent = `Location: ${checkNull(obj.location)}`;
+  profile.textContent = `Profile: ${checkNull(obj.name)}`;
+  profileUrl.textContent = `Link: ${checkNull(obj.html_url)}`;
+  followers.textContent = `Followers: ${checkNull(obj.followers)}`;
+  following.textContent = `Following: ${checkNull(obj.following)}`;
+  bio.textContent = `Bio: ${obj.bio}`;
 
   // create classes for elements
   card.classList.add("card");
-  cardInfo("card-info");
+  cardInfo.classList("card-info");
   name.classList.add("name");
   username.classList.add("username");
 
+  //check null
+  function checkNull(data) {
+    if (data) {
+      return data;
+    }
+    return "";
+  }
+
   return card;
 }
+
+// step 5
+
+followersArray.forEach((data) => {
+  axios
+    .get("https://api.github.com/users/${data}")
+    .then((res) => {
+      console.log(res);
+      cards.appendChild(cardMaker(res.data));
+    })
+    .catch((err) => {
+      console.log("error 222");
+      debugger;
+    });
+});
