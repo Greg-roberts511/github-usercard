@@ -70,7 +70,7 @@ const followersArray = [];
     bigknell
 */
 
-function gitCards(obj) {
+function cardMaker(obj) {
   //create elements
   const card = document.createElement("div");
   const img = document.createElement("img");
@@ -79,6 +79,7 @@ function gitCards(obj) {
   const username = document.createElement("p");
   const location = document.createElement("p");
   const profile = document.createElement("p");
+  const profileUrl = document.createElement("a");
   const followers = document.createElement("p");
   const following = document.createElement("p");
   const bio = document.createElement("p");
@@ -90,7 +91,27 @@ function gitCards(obj) {
   cardInfo.appendChild(username);
   cardInfo.appendChild(location);
   cardInfo.appendChild(profile);
+  cardInfo.appendChild(profileUrl);
   cardInfo.appendChild(followers);
   cardInfo.appendChild(following);
   cardInfo.appendChild(bio);
+
+  //populate elemnts
+  img.src = data.avatar_url;
+  name.textContent = data.name;
+  username.textContent = data.login;
+  location.textContent = `Location: ${data.location}`;
+  profile.textContent = `Profile: ${data.name}`;
+  profileUrl.textContent = `Link: ${data.html_url}`;
+  followers.textContent = `Followers: ${data.followers}`;
+  following.textContent = `Following: ${data.following}`;
+  bio.textContent = `Bio: ${data.bio}`;
+
+  // create classes for elements
+  card.classList.add("card");
+  cardInfo("card-info");
+  name.classList.add("name");
+  username.classList.add("username");
+
+  return card;
 }
