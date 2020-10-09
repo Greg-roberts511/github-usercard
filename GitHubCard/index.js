@@ -106,12 +106,13 @@ function cardMaker(obj) {
   img.src = obj.avatar_url;
   name.textContent = obj.name;
   username.textContent = obj.login;
+  //ran out of api requests tryingf to figure this out *face palm*
   location.textContent = `Location: ${checkNull(obj.location)}`;
   profile.textContent = `Profile: ${checkNull(obj.name)}`;
   profileUrl.textContent = `Link: ${checkNull(obj.html_url)}`;
   followers.textContent = `Followers: ${checkNull(obj.followers)}`;
   following.textContent = `Following: ${checkNull(obj.following)}`;
-  bio.textContent = `Bio: ${obj.bio}`;
+  bio.textContent = `Bio: ${checkNull(obj.bio)}`;
 
   // create classes for elements
   card.classList.add("card");
@@ -132,11 +133,11 @@ function cardMaker(obj) {
 
 // step 5
 
-followersArray.forEach((data) => {
+followersArray.forEach((array) => {
   axios
-    .get("https://api.github.com/users/${data}")
+    .get("https://api.github.com/users/${array}")
     .then((res) => {
-      console.log(res);
+      console.log(res.data);
       cards.appendChild(cardMaker(res.data));
     })
     .catch((err) => {
